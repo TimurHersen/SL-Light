@@ -5,12 +5,11 @@ import java.util.HashMap;
 
 public class Graph {
 
+    private HashMap<Node, ArrayList<Edge>> adjList = new HashMap<>();
 
-    HashMap<Node, ArrayList> nodeList = new HashMap<>();
 
-
-    private void readStationsAndTimes(){
+/*    private void readStationsAndTimes(){
         FileReader fileReader = new FileReader();
         BufferedReader bf = new BufferedReader();
-    }
+    }*/
 }
