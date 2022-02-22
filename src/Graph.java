@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -9,6 +10,8 @@ public class Graph {
 
     private HashMap<Node, ArrayList<Edge>> adjList = new HashMap<>();
 
+    private ArrayList<Node> nodeList = new ArrayList<>();
+    private ArrayList<Edge> edgeList = new ArrayList<>();
 
     /*    public void readFiles(String file) {
             FileReader fileReader = new FileReader(file);
