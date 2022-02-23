@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Graph {
+    //TEST KOMMENTAR FÖR ATT KONTROLLERA
 
     //TODO: Läs in sl_routes.txt för att koppla ihopa edges till vilken buss/tunnebana det är, krav enligt instruktioner.
     //TODO: Shortest path-algo
