@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Graph {
+    //TEST KOMMENTAR FÖR ATT KONTROLLERA
 
     private HashMap<Node, ArrayList<Edge>> adjList = new HashMap<>();
 
