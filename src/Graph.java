@@ -8,15 +8,16 @@ import java.util.StringTokenizer;
 
 public class Graph {
 
+    //TODO: Läs in sl_routes.txt för att koppla ihopa edges till vilken buss/tunnebana det är, krav enligt instruktioner.
+    //TODO: Shortest path-algo
+    //TODO: Ändra inläsningsmetoderna så att de objekten läggs in i adjList
+
     private HashMap<Node, ArrayList<Edge>> adjList = new HashMap<>();
 
     private ArrayList<Node> nodeList = new ArrayList<>();
     private ArrayList<Edge> edgeList = new ArrayList<>();
 
-    /*    public void readFiles(String file) {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bf = new BufferedReader(file);
-        }*/
+
     public void printNodes() {
         for (int i = 0; i < nodeList.size(); i++) {
             System.out.println(nodeList.get(i).toString());
@@ -50,36 +51,8 @@ public class Graph {
         }
     }
 
+
     public void readEdges() {
-        try {
-            FileReader fileReader = new FileReader("info/sl_stop_times.txt");
-            Scanner sc = new Scanner(fileReader);
-            String info = sc.nextLine();
-            while (sc.hasNextLine()) {
-                StringTokenizer stringTokenizer = new StringTokenizer(sc.nextLine(), ",");
-                long tripId1 = Long.parseLong(stringTokenizer.nextToken());
-                int arrivalTime1 = Integer.parseInt(stringTokenizer.nextToken());
-                int departureTime1 = Integer.parseInt(stringTokenizer.nextToken());
-                int stopId1 = Integer.parseInt(stringTokenizer.nextToken());
-
-                Scanner nextScanner = sc;
-
-                StringTokenizer stringTokenizer2 = new StringTokenizer(nextScanner.nextLine(), ",");
-
-                long tripId2 = Long.parseLong(stringTokenizer.nextToken());
-                int arrivalTime2 = Integer.parseInt(stringTokenizer.nextToken());
-                int departureTime2 = Integer.parseInt(stringTokenizer.nextToken());
-                int stopId = Integer.parseInt(stringTokenizer.nextToken());
-
-            }
-            fileReader.close();
-            sc.close();
-        } catch (IOException e) {
-            System.out.println("Message: " + e.getMessage());
-        }
-    }
-
-    public void readEdges2() {
         try {
             FileReader fileReader = new FileReader("info/sl_stop_times.txt");
             Scanner sc = new Scanner(fileReader);
@@ -114,6 +87,40 @@ public class Graph {
             System.out.println("Message: " + e.getMessage());
         }
     }
+
+        /*    public void readFiles(String file) {
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bf = new BufferedReader(file);
+        }*/
+
+    /*    public void readEdges() {
+        try {
+            FileReader fileReader = new FileReader("info/sl_stop_times.txt");
+            Scanner sc = new Scanner(fileReader);
+            String info = sc.nextLine();
+            while (sc.hasNextLine()) {
+                StringTokenizer stringTokenizer = new StringTokenizer(sc.nextLine(), ",");
+                long tripId1 = Long.parseLong(stringTokenizer.nextToken());
+                int arrivalTime1 = Integer.parseInt(stringTokenizer.nextToken());
+                int departureTime1 = Integer.parseInt(stringTokenizer.nextToken());
+                int stopId1 = Integer.parseInt(stringTokenizer.nextToken());
+
+                Scanner nextScanner = sc;
+
+                StringTokenizer stringTokenizer2 = new StringTokenizer(nextScanner.nextLine(), ",");
+
+                long tripId2 = Long.parseLong(stringTokenizer.nextToken());
+                int arrivalTime2 = Integer.parseInt(stringTokenizer.nextToken());
+                int departureTime2 = Integer.parseInt(stringTokenizer.nextToken());
+                int stopId = Integer.parseInt(stringTokenizer.nextToken());
+
+            }
+            fileReader.close();
+            sc.close();
+        } catch (IOException e) {
+            System.out.println("Message: " + e.getMessage());
+        }
+    }*/
 
 /*    private void readStops(){
         FileReader fileReader = new FileReader(file);
