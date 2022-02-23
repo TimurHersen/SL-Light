@@ -1,32 +1,48 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Edge {
-    //TODO: implementera en calculateWeight metod som tar emot arrival- och departureTime som omvandlas
-    // till heltal och räknar ut mellanskillanden
 
     private Node to;
-    private Node from;
-    private String arrivalTime; //Ändrat till string eftersom tokenizern inte kan omvandla formaten 08:33:00 till en int!
-    private String departureTime;
-    private int stopId;
-    private long routeId;
+    private String arrivalTime;
+    private String departureFromPrevious;
+    private String lineNr;
+    private long tripId;
+    private long weight;
 
-/*    public Edge(Node to, int arrivalTime, int departureTime, int stopId, long routeId) {
+    public Edge(Node to, String arrivalTime, String departureFromPrevious, long routeId, String lineNr) {
         this.to = to;
         this.arrivalTime = arrivalTime;
-        this.departureTime = departureTime;
-        this.stopId = stopId;
-        this.routeId = routeId;
-    }*/
-
-    public Edge(Node to, Node from, String  arrivalTime, String departureTime, long routeId) {
-        this.to = to;
-        this.from = from;
-        this.arrivalTime = arrivalTime;
-        this.departureTime = departureTime;
-        this.routeId = routeId;
+        this.departureFromPrevious = departureFromPrevious;
+        this.tripId = routeId;
+        this.lineNr = lineNr;
+        this.weight = calculateWeight(arrivalTime, departureFromPrevious);
     }
 
-    public long getRouteId() {
-        return routeId;
+    private long calculateWeight(String arrivalTime, String departureFromPrevious) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        long diffMinutes = 0;
+        try {
+            Date d1 = format.parse(arrivalTime);
+            Date d2 = format.parse(departureFromPrevious);
+            long diff = d1.getTime() - d2.getTime();
+            diffMinutes = diff / (60 * 1000) % 60;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (diffMinutes < 0)
+            throw new IllegalStateException("Weight can't be negative!");
+
+        return diffMinutes;
+    }
+
+    public long getWeight() {
+        return weight;
+    }
+
+    public long getTripId() {
+        return tripId;
     }
 
     public Node getTo() {
@@ -37,23 +53,21 @@ public class Edge {
         return arrivalTime;
     }
 
-    public String getDepartureTime() {
-        return departureTime;
+    public String getDepartureFromPrevious() {
+        return departureFromPrevious;
     }
 
-    public int getStopId() {
-        return stopId;
-    }
+    public String getLineNr(){ return lineNr; };
 
     @Override
     public String toString() {
         return "Edge{" +
                 "to=" + to +
-                ", from=" + from +
-                ", arrivalTime=" + arrivalTime +
-                ", departureTime=" + departureTime +
-                ", stopId=" + stopId +
-                ", routeId=" + routeId +
-                '}';
+                ", arrivalTime='" + arrivalTime + '\'' +
+                ", departureFromPrevious='" + departureFromPrevious + '\'' +
+                ", lineNr='" + lineNr + '\'' +
+                ", tripId=" + tripId +
+                ", weight=" + weight +
+                '}' + "\n";
     }
 }
