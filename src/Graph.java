@@ -3,11 +3,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class Graph {
-    //TEST KOMMENTAR FÖR ATT KONTROLLERA
-
-    //TODO: Läs in sl_routes.txt för att koppla ihopa edges till vilken buss/tunnebana det är, krav enligt instruktioner.
     //TODO: Shortest path-algo
 
+    private final double EARTH_RADIUS = 6371.137;
     private HashMap<Node, ArrayList<Edge>> adjList = new HashMap<>();
     private HashMap<Long, String> routesIdsAndLines = new HashMap<>();
     private HashMap<Long, Long> tripsAndRoutes = new HashMap<>();
@@ -21,6 +19,71 @@ public class Graph {
     private StringTokenizer tokenizer;
     private StringTokenizer tokenizer2;
 
+
+    public double getDistanceBetween(String firstStation, String secondStation) {
+        Node first = null;
+        Node second = null;
+        for (Map.Entry<Node, ArrayList<Edge>> entry : adjList.entrySet()) {
+            if (entry.getKey().getStopName().equalsIgnoreCase(firstStation))
+                first = entry.getKey();
+            if (entry.getKey().getStopName().equalsIgnoreCase(secondStation))
+                second = entry.getKey();
+        }
+        if (first == null || second == null)
+            throw new IllegalArgumentException("No such node exists");
+
+        return haversineFormula(first.getLatitude(), first.getLongitude(), second.getLatitude(), second.getLongitude());
+    }
+
+    private double haversineFormula(double lat1, double long1, double lat2, double long2) {
+        /**
+         * @source
+         */
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        double diffLat = Math.toRadians(lat2 - lat1);
+        double diffLong = Math.toRadians(long2 - long1);
+
+        double a = Math.pow(Math.sin(diffLat / 2), 2) +
+                Math.pow(Math.sin(diffLong / 2), 2) *
+                        Math.cos(lat1) *
+                        Math.cos(lat2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return EARTH_RADIUS * c;
+    }
+
+    public List<Edge> getClosestDepartures(String station, Date time) {
+        Node node = null;
+        for (Map.Entry<Node, ArrayList<Edge>> entry : adjList.entrySet()) {
+            if (entry.getKey().getStopName().equalsIgnoreCase(station))
+                node = entry.getKey();
+        }
+        if (node == null)
+            throw new IllegalArgumentException("No such station exists");
+
+        ArrayList<Edge> edges = adjList.get(node);
+        List<Edge> departures = new ArrayList<>();
+        for (Edge e : edges) {
+            if (e.getArrivalTime().after(time))
+                departures.add(e);
+        }
+
+        Collections.sort(departures, new Comparator<Edge>() {
+            @Override
+            public int compare(Edge firstEdge, Edge secondEdge) {
+                return firstEdge.getArrivalTime().compareTo(secondEdge.getArrivalTime());
+            }
+        });
+
+        List<Edge> closestDepartures = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            closestDepartures.add(departures.get(i));
+        }
+
+        return closestDepartures;
+    }
 
     public void printNodesAndEdges() {
         for (Map.Entry<Node, ArrayList<Edge>> entry : adjList.entrySet()) {
@@ -132,6 +195,38 @@ public class Graph {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void Astar(String start, String destination) {
+
+        Stack<Node> openList = new Stack<>();
+        ArrayList<Node> closedList = new ArrayList<>();
+        Node destinationNode;
+
+        for (Map.Entry<Node, ArrayList<Edge>> entry : adjList.entrySet()) {
+            if (entry.getKey().getStopName().equals(start)) {
+
+                Node startingNode = entry.getKey();
+                startingNode.setF(0);
+                openList.add(startingNode);
+                System.out.println("StartingNode found");
+            }
+            if (entry.getKey().getStopName().equals(destination)) {
+                destinationNode = entry.getKey();
+                System.out.println("DestinationNode found");
+            }
+
+        }
+        while (!openList.isEmpty()) {
+            Node stackNode = openList.pop();
+
+            ArrayList<Edge> routes = adjList.get(stackNode);
+
+
+        }
+        //TODO:
+
+
     }
 
 }

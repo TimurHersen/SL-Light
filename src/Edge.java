@@ -1,36 +1,44 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Edge {
 
     private Node to;
-    private String arrivalTime;
-    private String departureFromPrevious;
+    private Date arrivalTime;
+    private Date departureFromPrevious;
     private String lineNr;
     private long tripId;
     private long weight;
 
     public Edge(Node to, String arrivalTime, String departureFromPrevious, long routeId, String lineNr) {
         this.to = to;
-        this.arrivalTime = arrivalTime;
-        this.departureFromPrevious = departureFromPrevious;
+        this.arrivalTime = getDateFormat(arrivalTime);
+        this.departureFromPrevious = getDateFormat(departureFromPrevious);
         this.tripId = routeId;
         this.lineNr = lineNr;
-        this.weight = calculateWeight(arrivalTime, departureFromPrevious);
+        this.weight = calculateWeight(this.arrivalTime, this.departureFromPrevious);
     }
 
-    private long calculateWeight(String arrivalTime, String departureFromPrevious) {
+    private Date getDateFormat(String time) {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-        long diffMinutes = 0;
+        Date date = null;
         try {
-            Date d1 = format.parse(arrivalTime);
-            Date d2 = format.parse(departureFromPrevious);
-            long diff = d1.getTime() - d2.getTime();
-            diffMinutes = diff / (60 * 1000) % 60;
+            date = format.parse(time);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        return date;
+    }
+
+    private long calculateWeight(Date arrivalTime, Date departureFromPrevious) {
+
+        long diffMinutes = 0;
+        long diff = arrivalTime.getTime() - departureFromPrevious.getTime();
+        diffMinutes = diff / (60 * 1000) % 60;
+
         if (diffMinutes < 0)
             throw new IllegalStateException("Weight can't be negative!");
 
@@ -49,15 +57,18 @@ public class Edge {
         return to;
     }
 
-    public String getArrivalTime() {
+    public Date getArrivalTime() {
         return arrivalTime;
     }
 
-    public String getDepartureFromPrevious() {
+    public Date getDepartureFromPrevious() {
         return departureFromPrevious;
     }
 
-    public String getLineNr(){ return lineNr; };
+    public String getLineNr() {
+        return lineNr;
+    }
+
 
     @Override
     public String toString() {
@@ -70,4 +81,15 @@ public class Edge {
                 ", weight=" + weight +
                 '}' + "\n";
     }
+
+/*    public class TimeComparator implements Comparator<Date>{
+
+        @Override
+        public int compare(Edge firstEdge, Edge secondEdge) {
+            return Integer.compare(firstEdge.getArrivalTime(), secondEdge.getArrivalTime());
+        }
+    }*/
 }
+
+
+
