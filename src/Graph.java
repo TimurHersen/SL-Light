@@ -203,11 +203,11 @@ public class Graph {
         ArrayList<Node> closedList = new ArrayList<>();
         Node destinationNode;
 
+
         for (Map.Entry<Node, ArrayList<Edge>> entry : adjList.entrySet()) {
             if (entry.getKey().getStopName().equals(start)) {
 
                 Node startingNode = entry.getKey();
-                startingNode.setF(0);
                 openList.add(startingNode);
                 System.out.println("StartingNode found");
             }
@@ -221,6 +221,10 @@ public class Graph {
             Node stackNode = openList.pop();
 
             ArrayList<Edge> routes = adjList.get(stackNode);
+
+            for(Edge e : routes){
+
+            }
 
 
         }
