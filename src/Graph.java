@@ -5,7 +5,9 @@ import java.util.*;
 public class Graph {
     //TODO: Shortest path-algo
 
-    private final double EARTH_RADIUS = 6371.137;
+    private final double EARTH_RADIUS = 6372.8;
+    private final int AVG_SPEED = 50;
+
     private HashMap<Node, ArrayList<Edge>> adjList = new HashMap<>();
     private HashMap<Long, String> routesIdsAndLines = new HashMap<>();
     private HashMap<Long, Long> tripsAndRoutes = new HashMap<>();
@@ -20,7 +22,12 @@ public class Graph {
     private StringTokenizer tokenizer2;
 
 
-    public double getDistanceBetween(String firstStation, String secondStation) {
+
+    private int hValue(String current, String destination){
+        return (int)((getDistanceBetween(current, destination) / AVG_SPEED) * 60);
+    }
+
+    private double getDistanceBetween(String firstStation, String secondStation) {
         Node first = null;
         Node second = null;
         for (Map.Entry<Node, ArrayList<Edge>> entry : adjList.entrySet()) {
@@ -37,13 +44,12 @@ public class Graph {
 
     private double haversineFormula(double lat1, double long1, double lat2, double long2) {
         /**
-         * @source
+         * @source: https://www.geeksforgeeks.org/haversine-formula-to-find-distance-between-two-points-on-a-sphere/
          */
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-
         double diffLat = Math.toRadians(lat2 - lat1);
         double diffLong = Math.toRadians(long2 - long1);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
 
         double a = Math.pow(Math.sin(diffLat / 2), 2) +
                 Math.pow(Math.sin(diffLong / 2), 2) *

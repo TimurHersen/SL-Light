@@ -8,12 +8,9 @@ public class Main {
 
     public static void main(String[] args) {
         Graph graph = new Graph();
-
         graph.readTrips();
         graph.readRouteNames();
-
         graph.readNodes();
-
         graph.readEdges();
 
 
@@ -28,7 +25,7 @@ public class Main {
         }
         System.out.println(graph.getClosestDepartures("Medborgarplatsen T-bana", date));*/
 
-        System.out.println(graph.getDistanceBetween("Gröndal Spårv", "Kista T-bana") + " kilometers");
+        //System.out.println(graph.hValue("Gröndal Spårv", "Kista T-bana") + " minutes");
 
 /*
         Scanner scanner = new Scanner(System.in);
